@@ -1,0 +1,34 @@
+@media(max-width:767px){
+    .custom-slider {
+        height: unset;
+        width: unset;
+    }
+    .slider-img {
+        width: auto;
+        height: 150px;
+    }
+    .featured-box {
+        height: unset !important;
+    }
+    .add-to-cart{
+        padding: 11px 8px;
+    }
+    .display-block-sm{
+        display: block !important;
+    }
+    .display-none-sm{
+        display: none;
+    }
+    .product-colum{
+        height: unset !important;
+    }
+    .navbar-toggler{
+        background-color: #ffffff85;
+    }
+    .ad-titles{
+        font-size: 17px;
+    }
+    .book-food{
+        padding:3.275rem 0
+    }
+}
