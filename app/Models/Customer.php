@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Customer extends Authenticatable 
 {
     use HasFactory;
-    protected $table = "tbl_customer";
-    protected $primaryKey = "Customer_SlNo";
+    public $timestamps = false;
     protected $fillable = ['*'];
 }

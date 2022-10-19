@@ -19,7 +19,7 @@
                     <div class="col">
                         <div class="product-colum shadow-sm p-3 rounded">
                             <a href="{{ route('productDetails', optional($item->product)->Product_SlNo) }}">
-                                <div class="center"><img class="product-image" src="http://kssoft.expressretailbd.com/uploads/products/{{ optional($item->product)->image }}"
+                                <div class="center"><img class="product-image" src="{{$domain}}uploads/products/{{$item->image }}"
                                         alt=""></div>
                                 <div class="product-title text-center pt-2">
                                     <p>{{ optional($item->product)->Product_Name }}</p>

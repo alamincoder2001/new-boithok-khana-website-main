@@ -2,8 +2,8 @@
 @section('title', 'Home')
 @section('website-content')
 <!-- Quick Order Section -->
-<section class="mt-5 pb-4">
-  <div class="container">
+<section class="pb-4" style="background: rgb(0 0 0 / 40%) url({{asset('background.jpg')}});background-position: center;background-repeat: no-repeat;background-size: 100% 100%;background-blend-mode: darken;">
+  <div class="container pt-5 pb-4">
       <div class="row">
           <div class="col-md-8 col-12">
                 @if(count($data['banners'])>0)
@@ -11,7 +11,7 @@
                     <div class="col-md-2 col-6">
                         <div class="banner_img_ino top-50 start-50">
                             @isset($data['banners'][0]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][0]->image }}" class="w-100 banner-img-1" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][0]->image }}" class="w-100 banner-img-1" alt="">
                             @endisset                        
                         </div>
                     </div>
@@ -19,10 +19,10 @@
                     <div class="col-md-2 col-6">
                         <div class="banner_img_two">
                             @isset($data['banners'][1]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][1]->image }}" class="w-100 mb-3 banner-img-2" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][1]->image }}" class="w-100 mb-3 banner-img-2" alt="">
                             @endisset
                             @isset($data['banners'][2]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][2]->image }}" class="w-100 banner-img-3" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][2]->image }}" class="w-100 banner-img-3" alt="">
                             @endisset
                         </div>
                     </div>
@@ -30,10 +30,10 @@
                     <div class="col-md-2 col-6">
                         <div class="banner_img_three">
                             @isset($data['banners'][3]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][3]->image }}" class="w-100 mb-3 banner-img-4" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][3]->image }}" class="w-100 mb-3 banner-img-4" alt="">
                             @endisset
                             @isset($data['banners'][4]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][4]->image }}" class="w-100 banner-img-5" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][4]->image }}" class="w-100 banner-img-5" alt="">
                             @endisset
                         </div>
                     </div>
@@ -41,10 +41,10 @@
                     <div class="col-md-2 col-6">
                         <div class="banner_img_four">
                             @isset($data['banners'][5]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][5]->image }}" class="w-100 mb-3 banner-img-6" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][5]->image }}" class="w-100 mb-3 banner-img-6" alt="">
                             @endisset
                             @isset($data['banners'][6]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][6]->image }}" class="w-100 banner-img-7" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][6]->image }}" class="w-100 banner-img-7" alt="">
                             @endisset
                         </div>
                     </div>
@@ -52,10 +52,10 @@
                     <div class="col-md-2 col-6">
                         <div class="banner_img_five">
                             @isset($data['banners'][7]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][7]->image }}" class="w-100 mb-3 banner-img-8" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][7]->image }}" class="w-100 mb-3 banner-img-8" alt="">
                             @endisset
                             @isset($data['banners'][8]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][8]->image }}" class="w-100 banner-img-9" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][8]->image }}" class="w-100 banner-img-9" alt="">
                             @endisset
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                     <div class="col-md-2 col-6">
                         <div class="banner_img_ino top-50 start-50">
                             @isset($data['banners'][9]->image)
-                                <img src="http://localhost:84/uploads/banners/{{ $data['banners'][9]->image }}" class="w-100 banner-img-1" alt="">
+                                <img src="{{$domain}}uploads/banners/{{ $data['banners'][9]->image }}" class="w-100 banner-img-1" alt="">
                             @endisset
                         </div>
                     </div>
@@ -110,7 +110,7 @@
                           <label for="" class="col-sm-3 col-form-label"><b>Product</b> </label>
                           <div class="col-sm-9">
                               <select name="txtId" id="txtId" class="form-control shadow-none p-1" required>
-                                  <option value="">Select Product option</option>
+                                  <option value="">Select Product option</option> 
                                   @foreach ($data['products'] as $item)
                                       <option value="{{ $item->Product_SlNo }}" data-price="{{ $item->Product_SellingPrice }}">{{ $item->Product_Name }}</option>
                                   @endforeach
@@ -159,7 +159,7 @@
               <div class="col-lg-2 col-md-2 col-6 mb-4">
                   <div class="card p-1 text-center cat_card">
                       <a href="{{ route('categorywise', $item->ProductCategory_SlNo) }}">
-                          <img src="{{ asset('website/image/category/1.jpg') }}" class="img-fluid" alt="">
+                          <img src="{{$domain}}/uploads/productcategory/{{$item->image}}" class="img-fluid" alt="">
                       </a>
                       <div class="py-2">
                           <a href="{{ route('categorywise', $item->ProductCategory_SlNo) }}"><h4 class="category-name">{{ $item->ProductCategory_Name }}</h4></a>
@@ -173,7 +173,7 @@
 
 <!-- category wise product -->
 @if(count($data['all'])>0)
-<section id="explore-food" class="">
+<section id="explore-food">
     @foreach ($data['all'] as $itemone)
         <div class="explore-food">
             <div class="container">
@@ -191,7 +191,7 @@
                         <div class="col-lg-3 col-md-6 mb-4">
                             <div class="card food_card">
                                 <a href="{{ route('productDetails', optional($item->product)->Product_SlNo) }}">
-                                    <img src="{{ asset('website/image/product/p1.jpg') }}" class="img-fluid w-100" alt="">
+                                    <img src="{{$domain}}uploads/products/{{$item->product->image}}" class="img-fluid w-100" alt="">
                                 </a>
                                 
                                 <div class="p-3">
@@ -230,13 +230,12 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <div class="card food_card">
                         <a href="{{ route('productDetails', $item->Product_SlNo) }}">
-                            <img src="{{ asset('website/image/product/p1.jpg') }}" class="img-fluid w-100" alt="">
+                            <img src="{{$domain}}uploads/products/{{($item->image)}}" class="img-fluid w-100" alt="">
                         </a>
                         
                         <div class="p-3">
                             <h4 title="{{ $item->Product_Name }}" class="product-title">{{ Str::words($item->Product_Name, '2', '...') }}</h4>
-                            <p class="p-0 m-0 product-info">৳ {{ $item->Product_SellingPrice }}</p>
-                                      
+                            <p class="p-0 m-0 product-info">৳ {{ $item->Product_SellingPrice }}</p>     
                             <div class="food_btn d-flex justify-content-between">
                                 <div><a href="{{ route('productDetails', $item->Product_SlNo) }}">View Details &nbsp;<i class="fa-solid fa-right-long"></i></a></div>
                                 <div class="btn btn-sm rounded-pill cart-btn" onclick="cartAjax({{ $item->Product_SlNo }})"><i class="fa-solid fa-cart-shopping"></i>&nbsp;&nbsp;Add To Cart</div>
@@ -253,7 +252,7 @@
 
 <!-- Start Book food Section -->
 <section id="book-food">
-    <div class="book-food" style="background-image:url('http://localhost:84/uploads/adss/16618515941.jpg')">
+    <div class="book-food" style="background-image:url('{{$domain}}uploads/adss/16618515941.jpg')">
         <div class="container book-food-text">
             <div class="row text-center">
                 <div class="col-12">
@@ -282,15 +281,15 @@
             @foreach ($data['shapes'] as $item)
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="card p-2 expert_card">
-                    <img src="{{ asset('website/image/shape') }}/{{ $item->image }}" loading="lazy" class="img-fluid" alt="">
+                    <img src="{{$domain}}uploads/shape/{{ $item->image }}" loading="lazy" class="img-fluid" alt="">
                     <div class="py-3 text-center">
                         <h3>{{ $item->name }}</h3>
                         <h4>{{ $item->designation }}</h4>
                         <div class="social">
-                            <a href="{{ $item->facebook }}" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i></a>
-                            <a href="{{ $item->twitter }}" target="_blank" class="twitter"><i class="fa-brands fa-twitter"></i></a>
-                            <a href="{{ $item->instagram }}" target="_blank" class="instagram"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="{{ $item->linkedin }}" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="/{{$item->facebook }}" target="_blank" class="fb"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="{{$item->twitter}}" target="_blank" class="twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="{{$item->instagram}}" target="_blank" class="instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="{{$item->linkedin}}" target="_blank" class="linkedin"><i class="fa-brands fa-linkedin-in"></i></a>
                         </div>
                     </div>
                 </div>

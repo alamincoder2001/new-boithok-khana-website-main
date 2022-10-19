@@ -10,6 +10,7 @@ class Product extends Model
 {
     use HasFactory;
     protected $table = "tbl_product";
+    protected $primaryKey = "Product_SlNo";
     protected $filable =['*'];
 
   

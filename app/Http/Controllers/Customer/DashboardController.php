@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\District;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\OrderWebsite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
@@ -28,7 +29,7 @@ class DashboardController extends Controller
             $data['countries'] = Country::all();
             $data['districts'] = District::all();
             $data['upazilas'] = Upazila::all();
-            $data['order'] = Order::with('customer','orderDetails')->where('SalseCustomer_IDNo',Auth::guard('customer')->user()->Customer_SlNo)->get();
+            $data['orders'] = OrderWebsite::with('customer')->where('SalseCustomer_IDNo',Auth::guard('customer')->user()->id)->get();
             return view('website.customer.dashboard', $data);
         }
         else{
@@ -88,10 +89,10 @@ class DashboardController extends Controller
         try {
 
             if(Auth::guard('customer')->check()){
-                $customer = Customer::where('Customer_SlNo',Auth::guard('customer')->user()->Customer_SlNo)->first();
+                $customer = Customer::where('id',Auth::guard('customer')->user()->id)->first();
                 $customer->district_id = $request->district_id;
                 $customer->upazila_id  = $request->upazila_id;
-                $customer->Customer_Address  = $request->address;
+                $customer->address  = $request->address;
                 $customer->save();
                 return back()->with('success','address updated successfully');
             }

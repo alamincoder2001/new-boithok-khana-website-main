@@ -5,15 +5,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Admin\AdController;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\BrandController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\ContentController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CustomerController;
 
 // optimiZe
 Route::get('/optimize', function() {

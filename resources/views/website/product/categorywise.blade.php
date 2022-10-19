@@ -18,7 +18,7 @@
                     <div class="col explore-food">
                         <div class="card food_card">
                             <a href="{{ route('productDetails', $item->Product_SlNo) }}">
-                                <img src="{{ asset('website/image/product/p1.jpg') }}" class="img-fluid w-100" alt="">
+                                <img src="{{$domain}}uploads/products/{{$item->image}}" class="img-fluid w-100" alt="">
                             </a>
                             
                             <div class="p-3">

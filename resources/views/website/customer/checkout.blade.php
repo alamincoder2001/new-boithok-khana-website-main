@@ -230,8 +230,11 @@
         $.ajax({
             url:url,
             method:"get",
+            beforeSend: () => {
+              $('#upazila_id').html("");
+            },
             success:function(data){
-                $('#upazila_id').html(data);
+                $('#upazila_id').append(data);
             }
         })
     }

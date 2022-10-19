@@ -13,7 +13,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     // image upload 
-    public function imageUpload($request, $name, $directory)
+    public function imageUpload($request, $image, $directory)
     {
         $doUpload = function ($image) use ($directory) {
             $name = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
@@ -32,8 +32,8 @@ class Controller extends BaseController
 
 
 
-        if (!empty($name) && $request->hasFile($name)) {
-            $file = $request->file($name);
+        if (!empty($image) && $request->hasFile($image)) {
+            $file = $request->file($image);
             if (is_array($file) && count($file)) {
                 $imagesPath = [];
                 foreach ($file as $key => $image) {

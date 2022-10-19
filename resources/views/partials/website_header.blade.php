@@ -6,7 +6,7 @@ $route = Route::currentRouteName();
 <header>
   <nav class="navbar navbar-expand-lg navigation-wrap">
     <div class="container">
-      <a class="navbar-brand d-flex" href="{{ route('home') }}"><img src="{{ asset('website/image/company/logo.png') }}" height="40" alt=""><h3 class="text-white display-none-sm">{{ $content->Company_Name }}</h3></a>
+      <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}"><img src="{{ asset('boithok-khana.png') }}" height="40" alt=""><h3 class="text-white display-none-sm">{{ $content->Company_Name }}</h3></a>
       
       <!-- responsive -->
       <div class="display-block-sm">

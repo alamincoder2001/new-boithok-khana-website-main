@@ -48,8 +48,8 @@
             <div class="swiper-container gallery-top">
               <div class="swiper-wrapper">                          
                  <div class="swiper-slide easyzoom easyzoom--overlay">
-                      <a href="http://kssoft.expressretailbd.com/uploads/products/{{ $product->image }}">
-                      <img src="http://kssoft.expressretailbd.com/uploads/products/{{ $product->image }}" alt="" />
+                      <a href="{{$domain}}uploads/products/{{ $product->image }}">
+                      <img width="50" src="{{$domain}}uploads/products/{{ $product->image }}" alt="" />
                       </a>
                   </div>                                        
               </div>
@@ -58,7 +58,7 @@
             <div class="swiper-container gallery-thumbs">
               <div class="swiper-wrapper">
                 <div class="swiper-slide">
-                  <img src="http://kssoft.expressretailbd.com/uploads/products/{{ $product->image }}" alt="" />
+                  <img src="{{$domain}}uploads/products/{{ $product->image }}" alt="" />
                 </div>                                                 
               </div>
             </div>
@@ -71,7 +71,7 @@
           <h3 class="mt-3 mt-lg-0 mb-0">{{ $product->Product_Name}}</h3>
           <div class="d-flex align-items-center mt-3 gap-2">
             {{-- <h5 class="mb-0 text-decoration-line-through text-light-3">998.00 TK</h5> --}}
-            <h4 class="mb-0">{{ $product->Product_SellingPrice }}</h4>
+            <h4 class="mb-0">৳ {{ $product->Product_SellingPrice }}</h4>
           </div>
           <div class="mt-3">
           </div>

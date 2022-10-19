@@ -30,8 +30,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
          Paginator::useBootstrap();
+         view()->share("domain", "http://localhost:84/");
          view()->share('content', CompanyProfile::first());
-         view()->share('category', Category::get());
+         view()->share('category', Category::where("status", "a")->get());
          view()->share('products', Product::where('is_website','true')->get());
     }
 

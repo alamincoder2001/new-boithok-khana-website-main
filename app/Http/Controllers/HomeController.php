@@ -30,8 +30,7 @@ class HomeController extends Controller
 
         $data["products"] = Product::where('is_website','true')->get();
         $data["banners"] = Banner::where('status','a')->latest()->get();
-        $data["all"] = PublishedCategory::with(['published' => function($q){
-            
+        $data["all"] = PublishedCategory::with(['published' => function($q){            
             $q->where('status',1);
             }])->where('status',1)->get();
 

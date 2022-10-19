@@ -17,7 +17,7 @@
                 @forelse ($data['shapes'] as $item)
                     <div class="col expert-food">
                         <div class="card p-2 expert_card">
-                            <img src="{{ asset('website/image/shape') }}/{{ $item->image }}" loading="lazy" class="img-fluid" alt="">
+                            <img src="{{$domain}}uploads/shape/{{ $item->image }}" loading="lazy" class="img-fluid" alt="">
                             <div class="py-3 text-center">
                                 <h3>{{ $item->name }}</h3>
                                 <h4>{{ $item->designation }}</h4>

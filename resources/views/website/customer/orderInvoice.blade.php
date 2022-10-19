@@ -29,10 +29,10 @@
                     <div>
                         <div style="display:flex">
                           <div class="logo-img" style="width: 50%">
-                            <img src="{{asset($content->logo)}}" alt="logo" style="height: 50px;width:auto">
+                            <img src="{{$domain}}uploads/company_profile_org/{{$content->Company_Logo_org}}" alt="logo" style="height: 50px;width:auto">
                           </div>
                           <div style="width: 50%">
-                            <h3 style="text-align: right; margin:15px 0px;float:right">Invoice &nbsp;&nbsp;#{{ $order->SaleMaster_InvoiceNo }}</h3>
+                            <h3 style="text-align: right; margin:15px 0px;float:right">Invoice &nbsp;&nbsp;#{{ $orders->invoice_no }}</h3>
                           </div>
                         </div>    
 
@@ -42,25 +42,29 @@
                       <div style="display: flex;width:100%">
                         <div style="width: 30%;">
                           <p class="mt-2 mb-2"><b>{{ $content->Company_Name }}</b></p>
-                          <p>{{ $content->Repot_Heading }}</p>
+                          <p>{{ $content->Report_Heading }}</p>
                         </div>
                         <div style="width: 70%;"  >
                           <p style="text-align: right;"><b>Invoice to</b></p>
-                          <p style="text-align: right; margin-bottom:0"><strong>Name: </strong>{{ optional($order->customer)->Customer_Name }}<br><strong>Phone:</strong> {{  optional($order->customer)->Customer_Mobile }}</p>
-                                                    
+                          @if($orders->customer_type)
+                            <p style="text-align: right; margin-bottom:0"><strong>Name: </strong>{{ $orders->customer_name }}<br><strong>Phone:</strong> {{  $orders->customer_phone }}</p>
+                          @else
+                            <p style="text-align: right; margin-bottom:0"><strong>Name: </strong>{{ $orders->Customer_name }}<br><strong>Phone:</strong> {{  $orders->Customer_phone }}</p>
+                          @endif
+                          @if($orders->billing_address)
                           <p style="text-align: right; margin-bottom:0">
-                          <strong> Billing Address:</strong> {{ $order->billing_address }}</p>
+                          <strong> Billing Address:</strong> {{ $orders->billing_address }}</p>
+                          @endif
                           <p style="text-align: right; margin-bottom:0">
-                            @if ($order->shipping_address != Null)
-                              <strong> Shipping Address:</strong>  {{ $order->shipping_address }}
-                            @else
+                            @if ($orders->shipping_address != null)
+                              <strong> Shipping Address:</strong>  {{ $orders->shipping_address }}
                             @endif
                         </p>
                         </div>
                       </div>
                       <div style="justify-content: space-between;">
                         <div class="col-xs-5 pl-0">
-                          <p style="margin-bottom:5px">Invoice Date : {{ $order->SaleMaster_SaleDate }}</p>
+                          <p style="margin-bottom:5px">Invoice Date : {{ $orders->sale_date }}</p>
                         </div>
                       </div>
                       <div class="table-responsive">
@@ -76,13 +80,13 @@
                               </thead>
                               <tbody>
                                
-                                @foreach ($order->orderDetails as $key=> $item)
+                                @foreach (\App\Models\Order::Orderdetails($orders->id) as $key=> $item)
                                 <tr style="text-align: right; ">
                                   <td style="text-align: center; padding:5px; font-size:13px">{{ $key+1 }}</td>
-                                  <td style="text-align: left; padding:5px; font-size:13px">{{ optional($item->product)->Product_Name }}</td>       
-                                  <td  style="text-align:center; padding:5px; font-size:13px">{{ $item->SaleDetails_TotalQuantity }} </td>
-                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->SaleDetails_Rate }} Tk</td>
-                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->SaleDetails_TotalAmount }} Tk</td>
+                                  <td style="text-align: left; padding:5px; font-size:13px">{{ $item->product->Product_Name }}</td>       
+                                  <td  style="text-align:center; padding:5px; font-size:13px">{{ $item->quantity }} </td>
+                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->price }} Tk</td>
+                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->quantity *  $item->price}} Tk</td>
                                 </tr>
                                 @endforeach
                               </tbody>
@@ -90,9 +94,9 @@
                           
                       </div>
                       <div style="padding-top: 10px">                                   
-                        <p  style="text-align: right;margin-bottom:5px; margin-top:10px"><span style="font-weight:600">Sub Total :</span>  {{ $order->orderDetails->sum('SaleDetails_TotalAmount') }} Tk</p>
-                        <p  style="text-align: right;margin-bottom:15px"><span style="font-weight:600;  ">Shipping :</span>  {{ $order->shipping_cost }} Tk</p>
-                        <h4 style="text-align: right; font-weight:700"><span>Total :</span><span id="number"> {{ $order->SaleMaster_TotalSaleAmount }}  </span> Tk</h4>                      
+                        <p  style="text-align: right;margin-bottom:5px; margin-top:10px"><span style="font-weight:600">Sub Total :</span>  {{ $orders->total_amount }} Tk</p>
+                        <p  style="text-align: right;margin-bottom:15px"><span style="font-weight:600;  ">Shipping :</span>  {{ $orders->shipping_cost }} Tk</p>
+                        <h4 style="text-align: right; font-weight:700"><span>Total :</span><span id="number"> {{ $orders->total_amount + $orders->shipping_cost}}  </span> Tk</h4>                      
                       </div>                     
                   </div>
                   <div class="container-fluid w-100 mb-3 text-end" >

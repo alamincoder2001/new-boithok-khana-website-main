@@ -7,6 +7,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\OrderDetails;
+use App\Models\OrderWebsite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -34,7 +35,7 @@ class CustomerController extends Controller
         $request->session()->put('name',$request->name);  
         $request->session()->put('phone',$request->phone);  
         $request->session()->put('address',$request->address);          
-        $request->session()->put('otp_verify','false'); 
+        // $request->session()->put('otp_verify','false'); 
 
         return redirect()->route('checkout');
     }
@@ -78,7 +79,7 @@ class CustomerController extends Controller
             'otp' => 'required|digits:6'
         ]);
         
-         $main_otp = $request->session()->get('otp_no');
+        $main_otp = $request->session()->get('otp_no');
         if($main_otp == $request->otp){      
             $request->session()->put('otp_verify','true');
             return redirect()->route('checkout');
@@ -97,9 +98,9 @@ class CustomerController extends Controller
         ]);
         try {
 
-            $credential = $request->only('password');
-            $credential['Customer_Mobile'] = $request->phone;
-            $credential['Customer_Type'] = 'retail';
+            // $credential = $request->only('password');
+            $credential['phone'] = $request->phone;
+            $credential['password'] = $request->password;
             if(Auth::guard('customer')->attempt($credential)){
                return redirect()->route('customer.dashboard');
             }
@@ -108,8 +109,7 @@ class CustomerController extends Controller
             }
             
         } catch (\Throwable $th) {
-           return $th->getMessage();
-            return redirect()->back()->with('error', 'Mobile No or Password  !'. $th->getMessage());
+            return redirect()->back()->with('error', 'Mobile No or Password  !');
         }
     }
 
@@ -142,19 +142,15 @@ class CustomerController extends Controller
        try {
 
             $customer = new Customer();
-            if(Customer::where('Customer_Mobile',$request->phone)->where('Customer_Type','retail')->exists()){
+            if(Customer::where('phone',$request->phone)->exists()){
                 return back()->with('error','Already Exists Account!');
             }
-            $customer->Customer_Code = 'C'. $this->generateCode('Customer');
-            $customer->Customer_Name = $request->name;
-            $customer->Customer_Type = 'retail';
-            $customer->customer_from = 'Website';
-            $customer->owner_name = 'Website';
-            $customer->Customer_Mobile = $request->phone;
+            $customer->code = 'C'. $this->generateCode('Customer');
+            $customer->name = $request->name;
+            $customer->phone = $request->phone;
             $customer->username = $request->phone;
             $customer->password = Hash::make($request->password);
             $customer->ip_address = $request->ip();
-            $customer->Customer_brunchid = 1;
             $customer->save();           
         return redirect()->route('customer.login')->with('success','Account created successfully');
 
@@ -214,8 +210,8 @@ class CustomerController extends Controller
 
     public function customerInvoice($id){
         if (Auth::guard('customer')->check()) {
-            if(Order::where('SaleMaster_SlNo', $id)->where('SalseCustomer_IDNo',Auth::guard('customer')->user()->Customer_SlNo)->exists()){
-                $order = Order::where('SaleMaster_SlNo', $id)->first();
+            if(OrderWebsite::where('SaleMaster_InvoiceNo', $id)->where('SalseCustomer_IDNo', Auth::guard('customer')->user()->id)->exists()){
+                $order = OrderWebsite::where('SaleMaster_InvoiceNo', $id)->first();
             }
             else{
                 Session::flash('error', 'Invoice not found!');

@@ -46,116 +46,114 @@ class CartController extends Controller
 
         try {
             $id = $request->txtId;
-            $product = Product::where('Product_SlNo',$id)->first();
+            $product = Product::where('Product_SlNo', $id)->first();
             \Cart::add([
                 'id' => $id,
-                'name' =>$product->Product_Name,
+                'name' => $product->Product_Name,
                 'price' => $product->Product_SellingPrice,
                 'quantity' => $request->quantity,
                 'attributes' => array(
-                    'image' => 'http://kssoft.expressretailbd.com/uploads/products/'.$product->image,
+                    'image' => "http://localhost:84/uploads/products/" . $product->image,
                 )
-                ]);  
-                return response()->json([
-                    'result' => 'true',
-                    'cart'   => \Cart::getContent()
-                ]);
-          } catch (\Throwable $th) {
+            ]);
+            return response()->json([
+                'result' => 'true',
+                'cart'   => \Cart::getContent()
+            ]);
+        } catch (\Throwable $th) {
             return response()->json([
                 'result' => 'false'
             ]);
-          }
-        
+        }
     }
 
-    public function cartAjax(Request $request,$id)
+    public function cartAjax(Request $request, $id)
     {
-            $product = Product::where('Product_SlNo',$id)->first();
-      
-            \Cart::add([
-                'id' => $id,
-                'name' =>$product->Product_Name,
-                'price' => $product->Product_SellingPrice,
-                'quantity' => 1,
-                'attributes' => array(
-                    'image' => 'http://kssoft.expressretailbd.com/uploads/products/'.$product->image,
-                )
-                ]);
-        
-                return response()->json([
-                    'total_amount' => \Cart::getTotal(),
-                    'total_item'   => \Cart::getContent()->count(),
-                    'cart'         => \Cart::getContent()     
-                ]);
-    }
+        $product = Product::where('Product_SlNo', $id)->first();
 
-    public function cartDetails(){
-
-       return response()->json([
-        'total_amount' => \Cart::getTotal(),
-        'total_item'   => \Cart::getContent()->count(),
-        'cart'         => \Cart::getContent()     
-    ]);
-
-    }
-
-    public function cartShipping(){
+        \Cart::add([
+            'id' => $id,
+            'name' => $product->Product_Name,
+            'price' => $product->Product_SellingPrice,
+            'quantity' => 1,
+            'attributes' => array(
+                'image' => "http://localhost:84/uploads/products/" . $product->image,
+            )
+        ]);
 
         return response()->json([
-         'total_amount' => \Cart::getTotal(),
-         'total_item'   => \Cart::getContent()->count(),
-         'cart'         => \Cart::getContent()     
-     ]);
- 
-     }
+            'total_amount' => \Cart::getTotal(),
+            'total_item'   => \Cart::getContent()->count(),
+            'cart'         => \Cart::getContent()
+        ]);
+    }
 
-    public function cartRemove($id){
+    public function cartDetails()
+    {
+
+        return response()->json([
+            'total_amount' => \Cart::getTotal(),
+            'total_item'   => \Cart::getContent()->count(),
+            'cart'         => \Cart::getContent()
+        ]);
+    }
+
+    public function cartShipping()
+    {
+
+        return response()->json([
+            'total_amount' => \Cart::getTotal(),
+            'total_item'   => \Cart::getContent()->count(),
+            'cart'         => \Cart::getContent()
+        ]);
+    }
+
+    public function cartRemove($id)
+    {
         \Cart::remove($id);
         return true;
     }
 
-    public function cartIncrement($id){
-        
-        $product = Product::where('Product_SlNo',$id)->first();
-       foreach(\Cart::getContent() as $item){
-           if($item->id == $product->Product_SlNo){
-                   if($item->quantity + 1 <= 1000){
-                       if($item->id == $product->Product_SlNo){
-                           \Cart::update(
-                               $item->id,
-                               [
-                                   'quantity' => [
-                                       'relative' => false,
-                                       'value' => $item->quantity +1
-                                   ],
-                               ]
-                           ); 
-                           $cartItem = \Cart::getContent();
-                           return response()->json([
-                               'cartItem'     => $cartItem,
-                               'item'         => $item,
-                               'total_amount' => \Cart::getTotal(),
-                               'total_item'   => \Cart::getContent()->count()
-                           ]);
-                       }
-                   }
-                   else{
-                       return response()->json(['error' => 'out']);
-                       
-                   }
-               
-           }   
-       }
+    public function cartIncrement($id)
+    {
+
+        $product = Product::where('Product_SlNo', $id)->first();
+        foreach (\Cart::getContent() as $item) {
+            if ($item->id == $product->Product_SlNo) {
+                if ($item->quantity + 1 <= 1000) {
+                    if ($item->id == $product->Product_SlNo) {
+                        \Cart::update(
+                            $item->id,
+                            [
+                                'quantity' => [
+                                    'relative' => false,
+                                    'value' => $item->quantity + 1
+                                ],
+                            ]
+                        );
+                        $cartItem = \Cart::getContent();
+                        return response()->json([
+                            'cartItem'     => $cartItem,
+                            'item'         => $item,
+                            'total_amount' => \Cart::getTotal(),
+                            'total_item'   => \Cart::getContent()->count()
+                        ]);
+                    }
+                } else {
+                    return response()->json(['error' => 'out']);
+                }
+            }
+        }
     }
 
-    public function cartDecrement($id){
-        $product = Product::where('Product_SlNo',$id)->first();
-        foreach(\Cart::getContent() as $item){
-            if($item->id == $product->Product_SlNo){
-                if($item->quantity == 1){
+    public function cartDecrement($id)
+    {
+        $product = Product::where('Product_SlNo', $id)->first();
+        foreach (\Cart::getContent() as $item) {
+            if ($item->id == $product->Product_SlNo) {
+                if ($item->quantity == 1) {
                     $cart = 'data updated successfully';
-                }
-                else{  
+                } else {
                     \Cart::update(
                         $item->id,
                         [
@@ -164,13 +162,11 @@ class CartController extends Controller
                                 'value' => $item->quantity - 1,
                             ],
                         ]
-                        );
-                    
-                } 
+                    );
+                }
             }
-            
         }
-       
+
         $cartItem = \Cart::getContent();
         return response()->json([
             'cartItem'     => $cartItem,
@@ -180,51 +176,45 @@ class CartController extends Controller
         ]);
     }
 
-    public function cartRemoveSelected(Request $request){
+    public function cartRemoveSelected(Request $request)
+    {
 
         $data = $request->cartChecked;
 
-        foreach($data as $item){
-        \Cart::remove($item);
-
+        foreach ($data as $item) {
+            \Cart::remove($item);
         }
 
         return true;
     }
 
-    public function wishlist($id){
+    public function wishlist($id)
+    {
 
-        if(Auth::guard('customer')->user()){
+        if (Auth::guard('customer')->user()) {
 
             $wishlist = new Wishlist();
             $wishlist->customer_id = Auth::guard('customer')->user()->id;
             $wishlist->product_id = $id;
-            $count = Wishlist::where('customer_id',Auth::guard('customer')->user()->id)->get();
-            if(Wishlist::where('customer_id', Auth::guard('customer')->user()->id)->where('product_id',$id)->exists()){
+            $count = Wishlist::where('customer_id', Auth::guard('customer')->user()->id)->get();
+            if (Wishlist::where('customer_id', Auth::guard('customer')->user()->id)->where('product_id', $id)->exists()) {
 
                 return response()->json([
-                    'wishlist'=> count($count),
-                    'result' =>'exists'
+                    'wishlist' => count($count),
+                    'result' => 'exists'
                 ]);
-            }
-            else{
+            } else {
                 $wishlist->save();
                 return response()->json([
-                    'wishlist'=> count($count)+1,
-                    'result' =>'true'
+                    'wishlist' => count($count) + 1,
+                    'result' => 'true'
                 ]);
-
             }
-           
-            
-        }
-        else{
+        } else {
             return response()->json([
-                'wishlist'=> 0,
-                'result' =>'false'
+                'wishlist' => 0,
+                'result' => 'false'
             ]);
         }
     }
-
- 
 }

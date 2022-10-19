@@ -5,7 +5,7 @@
            {{-- <div class="col-md-3 col-12">
                 <h5 class="text-white fw-bold footer-title"></h5>
                 <a href="{{ route('home') }}"><img src="{{ asset('website/image/company/logo.png') }}" alt="" class="company-logo-footer"></a>
-            <a href="{{ route('home') }}"><img src="http://localhost:82/uploads/company_profile_org/{{ $content->Company_Logo_org }}" alt="" class="company-logo-footer"></a>
+            <a href="{{ route('home') }}"><img src="{{$domain}}uploads/company_profile_org/{{ $content->Company_Logo_org }}" alt="" class="company-logo-footer"></a>
            </div> --}}
            <div class="col-md-4 col-12">
             <h5 class="text-white fw-bold footer-title">Information Link</h5>

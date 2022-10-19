@@ -9,5 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Ad extends Model
 {
     use HasFactory,SoftDeletes;
+    
     protected $fillable = ['title','position','save_by','updated_by','ip_address','image','status','offer_link'];
 }
