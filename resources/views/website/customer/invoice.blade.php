@@ -41,7 +41,7 @@
                         </div>
                         <div style="width: 70%;"  >
                           <p style="text-align: right;"><b>Invoice to</b></p>
-                          <p style="text-align: right; margin-bottom:0"><strong>Name: </strong>{{ $order->customer->name }}<br><strong>Phone:</strong> {{  $order->customer->phone }}</p>
+                          <p style="text-align: right; margin-bottom:0"><strong>Name: </strong>{{ $order->customer->Customer_Name }}<br><strong>Phone:</strong> {{  $order->customer->Customer_Phone }}</p>
                                                     
                           <p style="text-align: right; margin-bottom:0">
                           <strong> Billing Address:</strong> {{ $order->billing_address }}</p>
@@ -70,13 +70,13 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                @foreach (\App\Models\OrderWebsite::Orderdetails($order->SaleMaster_SlNo) as $key=> $item)
+                                @foreach (\App\Models\Order::Orderdetails($order->SaleMaster_SlNo) as $key=> $item)
                                 <tr style="text-align: right; ">
                                   <td style="text-align: center; padding:5px; font-size:13px">{{ $key+1 }}</td>
                                   <td style="text-align: left; padding:5px; font-size:13px">{{ $item->product->Product_Name }}</td>       
-                                  <td  style="text-align:center; padding:5px; font-size:13px">{{ $item->quantity }} </td>
-                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->price }} Tk</td>
-                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->quantity *  $item->price }} Tk</td>
+                                  <td  style="text-align:center; padding:5px; font-size:13px">{{ $item->SaleDetails_TotalQuantity }} </td>
+                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->SaleDetails_Rate }} Tk</td>
+                                  <td style="text-align: right; padding:5px; font-size:13px">{{ $item->SaleDetails_TotalAmount }} Tk</td>
                                 </tr>
                                 @endforeach
                               </tbody>
@@ -85,7 +85,7 @@
                       </div>
                       <div style="padding-top: 10px">                                   
                         <p  style="text-align: right;margin-bottom:5px; margin-top:10px"><span style="font-weight:600">Sub Total :</span>  {{ $order->SaleMaster_SubTotalAmount }} Tk</p>
-                        <p  style="text-align: right;margin-bottom:15px"><span style="font-weight:600;  ">Shipping :</span>  {{ $order->shipping_cost }} Tk</p>
+                        <p  style="text-align: right;margin-bottom:15px"><span style="font-weight:600;  ">Shipping :</span>  {{ $order->SaleMaster_Freight }} Tk</p>
                         <h4 style="text-align: right; font-weight:700"><span>Total :</span><span id="number"> {{ $order->SaleMaster_TotalSaleAmount }}  </span> Tk</h4>                      
                       </div>                     
                   </div>

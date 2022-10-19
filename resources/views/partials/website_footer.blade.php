@@ -4,10 +4,10 @@
        <div class="row">
            {{-- <div class="col-md-3 col-12">
                 <h5 class="text-white fw-bold footer-title"></h5>
-                <a href="{{ route('home') }}"><img src="{{ asset('website/image/company/logo.png') }}" alt="" class="company-logo-footer"></a>
+                <a href="{{ route('home') }}"><img src="{{$domain}}uploads/company_profile_org/{{ $content->Company_Logo_org }}" alt="" class="company-logo-footer"></a>
             <a href="{{ route('home') }}"><img src="{{$domain}}uploads/company_profile_org/{{ $content->Company_Logo_org }}" alt="" class="company-logo-footer"></a>
            </div> --}}
-           <div class="col-md-4 col-12">
+           <div class="col-md-4 col-6">
             <h5 class="text-white fw-bold footer-title">Information Link</h5>
              <ul class="fa-ul custom-fa-ul">
                 <li><a href="{{ route('about.website') }}">About Us</a></li>
@@ -17,7 +17,7 @@
             </ul>
            </div>
 
-           <div class="col-md-4 col-12">
+           <div class="col-md-4 col-6">
             <h5 class="text-white fw-bold footer-title">Social Link</h5>
              <ul class="fa-ul custom-fa-ul">
                 <li><a href="{{ $content->facebook }}" target="_blank">Facebook</a></li>
@@ -42,8 +42,15 @@
 
 <!-- start footer buttom section -->
 <section class="footer-buttom-bg" style="margin-top:1px">
-    <div class="container-fluid py-2">
-        <div class="text-center" style="color: #999999"> All Rights Researved &copy; <a href="#">{{ $content->Company_Name }}</a></div>
+    <div class="container py-2">
+        <div class="row">
+            <div class="col-6 col-md-6">
+                <div style="color: #999999"> All Rights Researved &copy; <a href="#">{{ $content->Company_Name }}</a></div>
+            </div>
+            <div class="col-6 col-md-6">
+                <div class="text-end" style="color: #999999;font-family: sans-serif;"> Designed & Developed By: <a href="http://linktechbd.com/" target="_blank">Link-Up Technology Ltd.</a></div>
+            </div>
+        </div>
     </div>
 </section>
 <!-- end footer section -->

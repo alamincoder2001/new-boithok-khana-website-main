@@ -9,5 +9,6 @@ class CompanyProfile extends Model
 {
     use HasFactory;
     protected $table = "tbl_company";
+    protected $primaryKey = "Company_SlNo";
     protected $guarded = ['id'];
 }

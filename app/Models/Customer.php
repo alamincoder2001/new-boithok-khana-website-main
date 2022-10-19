@@ -10,4 +10,6 @@ class Customer extends Authenticatable
     use HasFactory;
     public $timestamps = false;
     protected $fillable = ['*'];
+    protected $primaryKey = "Customer_SlNo";
+    protected $table = "tbl_customer";
 }

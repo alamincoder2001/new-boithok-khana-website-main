@@ -27,8 +27,8 @@ a{
 /*Navigation Bar*/
 .navigation-wrap {
     z-index: 1000;
-    -webkit-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
     background-color: #000;
     box-shadow: 0px 1px 5px #ccc;
 }
@@ -41,6 +41,9 @@ a{
     outline: unset;
     border: unset;
     box-shadow: none;
+}
+.nav-link{
+    font-size: 13px !important;
 }
 
 .nav-link:hover {
@@ -100,6 +103,11 @@ a{
     transition: all 0.3s ease-in-out;
 }
 
+.navbar{
+    padding-top: 1.2rem !important;
+    padding-bottom: 1.2rem !important;
+}
+
 .navbar h3 {
     font-size: 22px;
     font-weight: 600;
@@ -115,7 +123,7 @@ a{
     width: 100%;
     background: #000;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    transition: all .15s ease-in-out 0s;
+    transition: all .3s ease-in-out 0.3s;
 }
 .login-title{
     color: #a3afef;
@@ -144,52 +152,52 @@ a{
 }
 
 .banner-img-1 {
-    height: 130px;
+    height: 110px;
     align-items: center;
     margin-top: 80px;
     border-radius: 10px;
 }
 
 .banner-img-2{
-    height: 120px;
+    height: 110px;
     border-radius: 10px;
     margin-top: 20px;
 }
 
 .banner-img-3 {
-    height: 130px;
+    height: 110px;
     border-radius: 10px;
 }
 
 .banner-img-4 {
-    height: 130px;
+    height: 110px;
     border-radius: 10px;
     margin-top: 66px;
 }
 
 .banner-img-5{
-    height: 130px;
+    height: 110px;
     border-radius: 10px;
 }
 
 .banner-img-6{
-    height: 130px;
+    height: 110px;
     border-radius: 10px;
 }
 
 .banner-img-7{
-    height: 130px;
+    height: 110px;
     border-radius: 10px;
 }
 
 .banner-img-8{
-    height: 130px;
+    height: 110px;
     border-radius: 10px;
     margin-top: 40px;
 }
 
 .banner-img-9{
-    height: 130px;
+    height: 110px;
     border-radius: 10px;
 }
 

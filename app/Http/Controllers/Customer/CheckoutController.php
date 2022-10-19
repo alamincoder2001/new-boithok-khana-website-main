@@ -9,37 +9,37 @@ use App\Models\Country;
 use App\Models\Upazila;
 use App\Models\Customer;
 use App\Models\District;
-use Darryldecode\Cart\Cart;
 use App\Models\OrderDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\OrderWebsite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Tymon\JWTAuth\Claims\Custom;
 
 class CheckoutController extends Controller
 {
     public function checkout()
     {
-        $data['countries'] = Country::all();
         $data['districts'] = District::all();
         $data['upazilas'] = Upazila::all();
-        if (Auth::guard('customer')->user()) {
+        if (Auth::guard('customer')->user() || session()->get('phone')) {
             if (\Cart::getContent()->count() > 0) {
                 return view('website.customer.checkout', $data);
             } else {
                 return redirect()->back()->with('error', 'Your Cart is empty');
             }
+        } else {
+            return back()->with('error', 'Must be login or quick order');
         }
         // if (!empty(session('otp_verify'))) {
         //     if (session('otp_verify') == 'true') {
-                if (\Cart::getContent()->count() > 0) {
-                    return view('website.customer.checkout', $data);
-                } else {
-                    return redirect()->back()->with('error', 'Your Cart is empty');
-                }
+        if (\Cart::getContent()->count() != 0) {
+            return view('website.customer.checkout', $data);
+        } else {
+            return redirect()->back()->with('error', 'Your Cart is empty');
+        }
         //     } else {
         //         return redirect()->route('enter-phone.website');
         //     }
@@ -53,159 +53,99 @@ class CheckoutController extends Controller
     public function checkoutStore(Request $request)
     {
 
-        // dd($request->all());       
-        if (isset($request->billDifferent)) {
-
-            $request->validate(
-                [
-                    'customer_name'     => 'required|max:150',
-                    'customer_mobile'   => 'required|max:11',
-                    'district_id'       => 'required',
-                    'upazila_id'        => 'required',
-                    'shipping_address'  => 'required',
-                    'billing_address'  => 'required',
-                    'charge'            => 'required',
-                    'bname'             => 'required',
-                    'bphone'            => 'required'
-                ],
-                [
-                    'district_id.required'       => 'District must be fill-up',
-                    'upazila_id.required'        => 'Upazila must be fill-up',
-                    'customer_name.required'     => 'Name must be fill-up',
-                    'customer_mobile.required'   => 'Phone must be fill-up',
-                    'customer_mobile.max'        => 'Phone No. maximum 11 Number',
-                    'shipping_address.required'  => 'Shipping Address must be fill-up',
-                    'billing_address.required'   => 'Billing Address must be fill-up',
-                    'charge.required'            => 'Charge Fill Must be fill-up',
-                    'bname.required'             => 'Biller Name Fill Must be fill-up',
-                    'bphone.required'            => 'Biller Phone Fill Must be fill-up'
-                ]
-            );
-        } else {
-            $request->validate(
-                [
-                    'customer_name'     => 'required|max:150',
-                    'customer_mobile'   => 'required|max:11',
-                    'district_id'       => 'required',
-                    'upazila_id'        => 'required',
-                    'shipping_address'  => 'required',
-                    'charge'            => 'required',
-                ],
-                [
-                    'district_id.required'       => 'District must be fill-up',
-                    'upazila_id.required'        => 'Upazila must be fill-up',
-                    'customer_name.required'     => 'Name must be fill-up',
-                    'customer_mobile.required'   => 'Phone must be fill-up',
-                    'customer_mobile.max'        => 'Phone No. maximum 11 Number',
-                    'shipping_address.required'  => 'Shipping Address must be fill-up',
-                    'charge.required'            => 'Charge Fill Must be fill-up',
-                ]
-            );
-        }
+        $request->validate(
+            [
+                'customer_name'     => 'required|max:150',
+                'customer_mobile'   => 'required|max:11',
+                'district_id'       => 'required',
+                'upazila_id'        => 'required',
+                'shipping_address'  => 'required',
+                'charge'            => 'required',
+            ],
+            [
+                'district_id.required'       => 'District must be fill-up',
+                'upazila_id.required'        => 'Upazila must be fill-up',
+                'customer_name.required'     => 'Name must be fill-up',
+                'customer_mobile.required'   => 'Phone must be fill-up',
+                'customer_mobile.max'        => 'Phone No. maximum 11 Number',
+                'shipping_address.required'  => 'Shipping Address must be fill-up',
+                'charge.required'            => 'Charge Fill Must be fill-up',
+            ]
+        );
 
         if (\Cart::getContent()->count() > 0) {
-
-            $last_invoice_no =  Order::take(1)->pluck('invoice_no');
-            if (count($last_invoice_no) > 0) {
-                $invoice_no = $last_invoice_no[0] + 1;
-            } else {
-                $invoice_no = date('ymd') . '000001';
-            }
-
             try {
                 DB::beginTransaction();
-                $ordermain = new OrderWebsite();
-                $order = new Order();
-                if (Auth::guard('customer')->check()) {
-                    $customerId = Auth::guard('customer')->user()->id;
-                    $customerOldId = Auth::guard('customer')->user();
-                    $ordermain->Customer_name = $customerOldId->name;
-                    $ordermain->Customer_phone = $customerOldId->phone;
-                    $ordermain->Customer_email  = $customerOldId->email;
+                $last_invoice_no =  Order::first();
+                if (!empty($last_invoice_no)) {
+                    $invoice_no = $last_invoice_no->SaleMaster_InvoiceNo + 1;
                 } else {
-                    $customer = new Customer();
-                    if (Customer::where('phone', session('phone'))->exists()) {
-                        $customerOldId = Customer::where('phone', session('phone'))->first();
-                        $customerId = $customerOldId->id;
-                        $ordermain->Customer_name = $customerOldId->name;
-                        $ordermain->Customer_phone = $customerOldId->phone;
-                        $ordermain->Customer_email  = $customerOldId->email;
-                    } else {
-                        $order->customer_name = $request->customer_name;
-                        $order->customer_type = 'G';
-                        $order->customer_phone = $request->customer_mobile;
-                        $order->customer_email  = $request->customer_email;
-
-                        $ordermain->Customer_name = $request->customer_name;
-                        $ordermain->Customer_phone = $request->customer_mobile;
-                        $ordermain->Customer_email  = $request->customer_email;
-                    }
+                    $invoice_no = date('y') . '0100001';
                 }
-
-                $order->invoice_no = $invoice_no;
-                if (isset($customerId)) {
-                    $order->customer_id  = $customerId;
+                
+                if (Auth::guard('customer')->check()) {
+                    $customerId = Auth::guard('customer')->user()->Customer_SlNo;
+                } else {
+                    $customer = new Customer;
+                    $customer->Customer_Code = 'C' . $this->generateCode('Customer');
+                    $customer->Customer_Type = 'G';
+                    $customer->Customer_Name = $request->customer_name;
+                    $customer->Customer_Phone = $request->customer_mobile;
+                    $customer->Customer_Mobile = $request->customer_mobile;
+                    $customer->Customer_Email  = $request->customer_email;
+                    $customer->Customer_Address  = session("address");
+                    $customer->save();
+                    $customerId = $customer->Customer_SlNo;
                 }
-                $order->district_id         = $request->district_id;
-                $order->upazila_id          = $request->upazila_id;
-                $order->sale_date           = date("Y-m-d");
-                $order->cus_message         = $request->cus_message;
-                $order->shipping_address    = $request->shipping_address;
-                $order->billing_address     = $request->billing_address;
-                $order->total_amount        = \Cart::getTotal();
-                $order->bname               = $request->bname;
-                $order->bphone              = $request->bphone;
-                $order->shipping_cost       = $request->charge;
-                $order->payment_type        = "Cash";
-                $order->status              = 'p';
-                $order->ip_address          = $request->ip();
-                $order->save();
 
                 // retail software
-                $ordermain->SaleMaster_InvoiceNo = $invoice_no;
-                if (isset($customerId)) {
-                    $ordermain->SalseCustomer_IDNo = $customerId;
-                }
-                $ordermain->SaleMaster_TotalDiscountAmount = 0.00;
-                $ordermain->SaleMaster_SaleDate = date("Y-m-d");
-                $ordermain->SaleMaster_SaleType = "Website";
-                $ordermain->payment_type = "Cash";
-                $ordermain->SaleMaster_SubTotalAmount  = \Cart::getTotal();
-                $ordermain->SaleMaster_TotalSaleAmount  = \Cart::getTotal() + $request->charge;
-                $ordermain->SaleMaster_TaxAmount       = 0.00;
-                $ordermain->SaleMaster_PaidAmount      = \Cart::getTotal() + $request->charge;
-                $ordermain->SaleMaster_DueAmount       = 0.00;
-                $ordermain->SaleMaster_TotalDiscountAmount = 0.00;
-                $ordermain->SaleMaster_Freight = 0.00;
-                $ordermain->SaleMaster_Previous_Due = 0.00;
-                $ordermain->shipping_cost = $request->charge;
-                $ordermain->SaleMaster_branchid = 1;
-                $ordermain->Status = "p";
-                $ordermain->Customer_message = $request->cus_message;
+                $order = new Order();
+                $order->SaleMaster_InvoiceNo = $invoice_no;
+                $order->SalseCustomer_IDNo = $customerId;
+                $order->SaleMaster_TotalDiscountAmount = 0.00;
+                $order->SaleMaster_SaleDate = date("Y-m-d");
+                $order->SaleMaster_SaleType = "retail";
+                $order->payment_type = "Cash";
+                $order->SaleMaster_SubTotalAmount  = \Cart::getTotal();
+                $order->SaleMaster_TotalSaleAmount  = \Cart::getTotal() + $request->charge;
+                $order->SaleMaster_TaxAmount       = 0.00;
+                $order->SaleMaster_PaidAmount      = \Cart::getTotal() + $request->charge;
+                $order->SaleMaster_DueAmount       = 0.00;
+                $order->SaleMaster_TotalDiscountAmount = 0.00;
+                $order->SaleMaster_Previous_Due = 0.00;
+                $order->SaleMaster_Freight = $request->charge;
+                $order->SaleMaster_branchid = 1;
+                $order->Status = "p";
+                $order->sale_from = "website";
+                $order->Customer_message = $request->cus_message;
+                
+                $order->shipping_address = $request->shipping_address;
+                $order->billing_address = $request->billing_address;
 
-                $ordermain->save();
 
-
+                $order->save();
 
                 foreach (\Cart::getContent() as $value) {
 
                     $price = ($value->price * $value->quantity);
-                    $orderDetails = new OrderDetails();
-                    $orderDetails->order_retail = $ordermain->SaleMaster_SlNo;
-                    $orderDetails->order_id = $order->id;
-                    $orderDetails->product_id = $value->id;
-                    $orderDetails->quantity = $value->quantity;
-                    $orderDetails->price = $price;
-                    $orderDetails->save();
+                    $mainDetails = new OrderDetails();
+                    $mainDetails->SaleMaster_IDNo = $order->SaleMaster_SlNo;
+                    $mainDetails->Product_IDNo  = $value->id;
+                    $mainDetails->SaleDetails_TotalQuantity = $value->quantity;
+                    $mainDetails->SaleDetails_Rate = $value->price;
+                    $mainDetails->SaleDetails_TotalAmount = $price;
+                    $mainDetails->Status = "a";
+                    $mainDetails->AddTime = Carbon::now();
+                    $mainDetails->SaleDetails_BranchId = "1";
+                    $mainDetails->save();
                 }
                 DB::commit();
                 \Cart::clear();
-                // Session::forget(['phone', 'otp_verify', 'otp_no']);
+                Session::forget(['phone', 'name', 'address']);
 
-                $orders = Order::with("customer")->where('id', $order->id)->first();
+                $orders = Order::with("customer")->where('SaleMaster_SlNo', $order->SaleMaster_SlNo)->first();
                 return view('website.customer.orderInvoice', compact('orders'));
 
-                return redirect()->route('home')->with('success', 'order Submit successfully');
             } catch (\Throwable $th) {
                 return $th->getMessage();
                 return redirect()->back()->with('error', 'order submitted fail!');

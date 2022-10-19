@@ -74,7 +74,7 @@
                           <div class="tab-content pt-3">
                               <div class="tab-pane fade active show" id="dashboard" role="tabpanel">                           
                                  <h6>Dashboard content</h6>   
-                                 <h5 class="fw-bolder">Hello, {{ Auth::guard('customer')->user()->name }}</h5>
+                                 <h5 class="fw-bolder">Hello, {{ Auth::guard('customer')->user()->Customer_Name }}</h5>
                                 <p>From your account dashboard. you can easily check & view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>                        
                               </div>
   
@@ -104,7 +104,7 @@
                                                 @elseif($item->Status == 'on')
                                                 {{ 'On Processing' }}
                                                 @elseif($item->Status == 'c')
-                                                {{ 'cancelled' }}
+                                                    <span class="text-danger">{{ 'cancelled' }}</span>
                                                 @elseif($item->Status == 'a')
                                                 {{ 'Delivered' }}
                                                 @else
@@ -117,14 +117,14 @@
                                             <td class="text-nowrap">
                                                 <div class="d-flex gap-2">
 
-                                                @if($item->Status != 'way' && $item->Status != 'c' && $item->Status != 'a')
-                                                <form action="{{route('product.order.delete',$item->SaleMaster_InvoiceNo)}}" method="post">
+                                                @if($item->Status != 'on' && $item->Status != 'way' && $item->Status != 'c' && $item->Status != 'a')
+                                                <form action="{{route('product.order.delete',$item->SaleMaster_SlNo)}}" method="post">
                                                     @csrf                     
-                                                    <button href="" type="submit" class="btn btn-sm btn-danger" title="Cancel" onclick="return confirm('Are you sure you want to cancel this order?');">Cancle</button>
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Cancel" onclick="return confirm('Are you sure you want to cancel this order?');">Cancle</button>
                                                 </form>
                                                 @endif
                                                 
-                                                <a href="{{ route('customer-invoice', $item->SaleMaster_InvoiceNo) }}" class="btn btn-sm bg-brand">Invoice</a>
+                                                <a href="{{ route('customer-invoice', $item->SaleMaster_SlNo) }}" class="btn btn-sm bg-brand">Invoice</a>
                                                 </div>
                                             </td>
                                             
@@ -145,7 +145,7 @@
                                             <select  class="form-control custom-form-control @error('district_id') is-invalid @enderror" id="district_id" name="district_id" onchange="fetchUpazila(this.value)">
                                                 <option value="">Select District</option>
                                                 @foreach($districts as $key=>$item)                                                 
-                                                    <option value="{{ $item->District_SlNo }}" {{ $item->District_SlNo == Auth::guard('customer')->user()->district_id ? 'selected':'' }}>{{ $item->District_Name }}</option>                                                  
+                                                    <option value="{{ $item->District_SlNo }}" {{ $item->District_SlNo == Auth::guard('customer')->user()->area_ID ? 'selected':'' }}>{{ $item->District_Name }}</option>                                                  
                                                 @endforeach
                                             </select>
                                             @error('district_id')
@@ -172,7 +172,7 @@
                                       <div class="col-12">
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Address</label>
-                                            <textarea  class="form-control custom-form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="Address" rows="3" cols="20">{{ Auth::guard('customer')->user()->address }}</textarea>
+                                            <textarea  class="form-control custom-form-control @error('address') is-invalid @enderror" id="address" name="address" placeholder="Address" rows="3" cols="20">{{ Auth::guard('customer')->user()->Customer_Address }}</textarea>
                                             @error('address')
                                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                             @enderror
@@ -199,28 +199,28 @@
                                   <div class="row">
                                       <div class="col-lg-6 col-md-6 col-12">                                    
                                           <label for="exampleFormControlInput1" class="form-label">Name</label>
-                                          <input type="text" class="form-control custom-form-control @error('name') is-invalid @enderror" id="name" placeholder="name" name="name" value="{{ Auth::guard('customer')->user()->name }}">  
+                                          <input type="text" class="form-control custom-form-control @error('name') is-invalid @enderror" id="name" placeholder="name" name="name" value="{{ Auth::guard('customer')->user()->Customer_Name }}">  
                                           @error('name')      
                                           <span><strong>{{ $message }}</strong></span>  
                                           @enderror                             
                                       </div>
                                       <div class="col-lg-6 col-md-6 col-12">
                                           <label for="exampleFormControlInput1" class="form-label">User Name</label>
-                                          <input type="text" class="form-control custom-form-control @error('username') is-invalid @enderror" id="username" placeholder="username" value="{{ Auth::guard('customer')->user()->username }}" name="username" readonly>  
+                                          <input type="text" class="form-control custom-form-control @error('username') is-invalid @enderror" id="username" placeholder="username" value="{{ Auth::guard('customer')->user()->Customer_Name }}" name="username" readonly>  
                                           @error('username')      
                                           <span><strong>{{ $message }}</strong></span>  
                                           @enderror                                      
                                       </div>
                                       <div class="col-12">
                                           <label for="exampleFormControlInput1" class="form-label">Phone </label>
-                                          <input type="text" class="form-control custom-form-control @error('phone') is-invalid @enderror" id="phone" placeholder="phone" name="phone" value="{{ Auth::guard('customer')->user()->phone }}">
+                                          <input type="text" class="form-control custom-form-control @error('phone') is-invalid @enderror" id="phone" placeholder="phone" name="phone" value="{{ Auth::guard('customer')->user()->Customer_Phone }}">
                                           @error('phone')      
                                           <span><strong>{{ $message }}</strong></span>  
                                           @enderror 
                                       </div>
                                       <div class="col-12">
                                           <label for="exampleFormControlInput1" class="form-label">Email Address</label>
-                                          <input type="email" class="form-control custom-form-control @error('email') is-invalid @enderror" id="email" placeholder="email" name="email" value="{{ Auth::guard('customer')->user()->email }}">
+                                          <input type="email" class="form-control custom-form-control @error('email') is-invalid @enderror" id="email" placeholder="email" name="email" value="{{ Auth::guard('customer')->user()->Customer_Email }}">
                                           @error('email')      
                                           <span><strong>{{ $message }}</strong></span>  
                                           @enderror 
@@ -293,7 +293,7 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             }
-            document.getElementById("previewImage").src ="{{ asset('/uploads/customer') }}/{{ Auth::guard('customer')->user()->image_name ? Auth::guard('customer')->user()->image_name : '/noimage.png' }} ";
+            document.getElementById("previewImage").src ="{{ asset('/uploads/customer') }}/{{ Auth::guard('customer')->user()->profile_picture ? Auth::guard('customer')->user()->profile_picture : '/noimage.png' }} ";
         </script>
 
         <script>

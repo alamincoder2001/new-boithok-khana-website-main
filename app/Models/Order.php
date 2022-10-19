@@ -9,15 +9,18 @@ use App\Models\Customer;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable  = ['*'];
+    protected $table = "tbl_salesmaster";
+    protected $primaryKey = "SaleMaster_SlNo";
+    protected $fillable = ['*'];
+    public $timestamps = false;
 
-    // customer relationship
-    public function customer(){
-    	return $this->belongsTo(Customer::class, 'customer_id');
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, "SalseCustomer_IDNo");
     }
-    // customer relationship
+
     public function Orderdetails($id)
     {
-        return OrderDetails::with("product")->where("order_id", $id)->get();
+        return OrderDetails::where("SaleMaster_IDNo", $id)->get();
     }
 }

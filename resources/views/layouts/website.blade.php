@@ -218,7 +218,7 @@
                     var quickdata = '';
                     quickdata += '<thead>';
                     quickdata += '<tr>';
-                    quickdata += '<th>Product</th>';
+                    quickdata += '<th>Food</th>';
                     quickdata += '<th>Qty</th>';
                     quickdata += '<th>Price</th>';
                     quickdata += '</tr>';

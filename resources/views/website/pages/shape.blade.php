@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-auto me-auto">
-                    <div class="common-title">Our Shape</div>
+                    <div class="common-title">Our Chef</div>
                 </div>
                 <div class="col-auto">
 

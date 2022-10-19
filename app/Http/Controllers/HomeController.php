@@ -3,32 +3,25 @@
 namespace App\Http\Controllers;
 use DB;
 use App\Models\Ad;
-use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Shape;
 use App\Models\Banner;
-use App\Models\Contact;
 use App\Models\Message;
 use App\Models\Product;
 use App\Models\Upazila;
 use App\Models\Category;
 use App\Models\Wishlist;
-use App\Models\OrderDetails;
 use App\Models\PhotoGallery;
 use Illuminate\Http\Request;
-use GuzzleHttp\Handler\Proxy;
-use PharIo\Manifest\Manifest;
-use App\Models\ProductPublished;
 use App\Models\PublishedCategory;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use function PHPUnit\Framework\returnSelf;
+
 
 class HomeController extends Controller
 {
     public function index(){
 
-        $data["products"] = Product::where('is_website','true')->get();
+        $data["products"] = Product::where("status", "a")->where('is_website','true')->get();
         $data["banners"] = Banner::where('status','a')->latest()->get();
         $data["all"] = PublishedCategory::with(['published' => function($q){            
             $q->where('status',1);
@@ -43,7 +36,7 @@ class HomeController extends Controller
     public function categorywise($id){
         
         try {
-            $products = Product::where('is_website','true')->where('ProductCategory_ID', $id)->get();
+            $products = Product::where("Status", "!=", "d")->where('is_website','true')->where('ProductCategory_ID', $id)->get();
             $category = Category::select('ProductCategory_Name')->where('ProductCategory_SlNo',$id)->first();
             $title = $category->ProductCategory_Name;
             return view('website.product.categorywise',compact('products', 'title'));
@@ -209,10 +202,9 @@ class HomeController extends Controller
     }
 
     public function destroy($id){
-        $order = Order::find($id);
-        $orderDetails = OrderDetails::where('order_id',$id)->get();
-        $order->status = 'c';
-        $order->updated_by = Auth::guard('customer')->user()->id;
+        $order = Order::where("SaleMaster_SlNo",$id)->first();
+        $order->Status = 'c';
+        $order->UpdateBy = Auth::guard('customer')->user()->id;
         $order->save();
         return back()->with('success', 'Order cancel successfully');
     }

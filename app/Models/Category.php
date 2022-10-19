@@ -9,5 +9,6 @@ class Category extends Model
 {
     use HasFactory;
     protected $table = "tbl_productcategory";
-    protected $fillable = ["*"];
+    protected $primaryKey = "ProductCategory_SlNo";
+    protected $fillable = ["*"]; 
 }

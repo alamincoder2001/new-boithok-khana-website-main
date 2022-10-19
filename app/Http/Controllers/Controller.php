@@ -99,7 +99,7 @@ class Controller extends BaseController
         $num_rows = $model::count();
         $count_char = strlen($prefix);
         if($num_rows != 0){
-            $last_code = $model::withTrashed()->select('code')->latest()->take(1)->first();
+            $last_code = $model::withTrashed()->select('code')->take(1)->first();
             $number = substr($last_code->code, $count_char);
         }
 

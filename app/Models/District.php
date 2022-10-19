@@ -9,5 +9,6 @@ class District extends Model
 {
     use HasFactory;
     protected $table = "tbl_district";
+    protected $primaryKey = "District_SlNo";
     protected $fillable = ["*"];
 }

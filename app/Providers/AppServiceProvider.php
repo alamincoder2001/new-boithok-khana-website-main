@@ -32,8 +32,8 @@ class AppServiceProvider extends ServiceProvider
          Paginator::useBootstrap();
          view()->share("domain", "http://localhost:84/");
          view()->share('content', CompanyProfile::first());
-         view()->share('category', Category::where("status", "a")->get());
-         view()->share('products', Product::where('is_website','true')->get());
+         view()->share('category', Category::where("status", "a")->where("category_branchid", 1)->get());
+         view()->share('products', Product::where("Status", "!=", "d")->where('is_website','true')->get());
     }
 
 }

@@ -6,12 +6,9 @@ use App\Models\Order;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\OrderDetails;
-use App\Models\OrderWebsite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Intervention\Image\Facades\Image;
 
 class CustomerController extends Controller
 {
@@ -99,12 +96,11 @@ class CustomerController extends Controller
         try {
 
             // $credential = $request->only('password');
-            $credential['phone'] = $request->phone;
+            $credential['username'] = $request->phone;
             $credential['password'] = $request->password;
             if(Auth::guard('customer')->attempt($credential)){
                return redirect()->route('customer.dashboard');
-            }
-            else{
+            }else{
                 return redirect()->back()->with('error', 'Mobile No or Password Incorrect !');
             }
             
@@ -142,15 +138,15 @@ class CustomerController extends Controller
        try {
 
             $customer = new Customer();
-            if(Customer::where('phone',$request->phone)->exists()){
-                return back()->with('error','Already Exists Account!');
-            }
-            $customer->code = 'C'. $this->generateCode('Customer');
-            $customer->name = $request->name;
-            $customer->phone = $request->phone;
-            $customer->username = $request->phone;
-            $customer->password = Hash::make($request->password);
-            $customer->ip_address = $request->ip();
+            $customer->Customer_Code = 'C'. $this->generateCode('Customer');
+            $customer->Customer_Name = $request->name;
+            $customer->Customer_Phone = $request->phone;
+            $customer->Customer_Mobile = $request->phone;
+            $customer->username        = $request->phone;
+            $customer->Customer_Type = 'retail';
+            $customer->owner_name = ' ';
+            $customer->password = Hash::make($request->password); 
+            $customer->Customer_brunchid  = 1;
             $customer->save();           
         return redirect()->route('customer.login')->with('success','Account created successfully');
 
@@ -179,7 +175,6 @@ class CustomerController extends Controller
                     $customer->save();
                     if ($customer) {
                         Session::flash('message', 'Password Update Successfully');
-                        // Auth::guard('customer')->logout();
                         return back();
                     } else {
                         Session::flash('error', 'Current password not match');
@@ -201,7 +196,7 @@ class CustomerController extends Controller
     public function customerPanel()
     {
         if (Auth::guard('customer')->check()) {
-            $order = Order::with('orderDetails')->where('customer_id', Auth::guard('customer')->user()->id)->latest()->get();
+            $order = Order::with('Orderdetails')->where('Customer_SlNo', Auth::guard('customer')->user()->Customer_SlNo)->latest()->get();
             return view('website.customer.dashboard', compact('order'));
         } else {
             return redirect()->route('home');
@@ -210,8 +205,8 @@ class CustomerController extends Controller
 
     public function customerInvoice($id){
         if (Auth::guard('customer')->check()) {
-            if(OrderWebsite::where('SaleMaster_InvoiceNo', $id)->where('SalseCustomer_IDNo', Auth::guard('customer')->user()->id)->exists()){
-                $order = OrderWebsite::where('SaleMaster_InvoiceNo', $id)->first();
+            if(Order::with("Orderdetails")->where('SaleMaster_SlNo', $id)->where('SalseCustomer_IDNo', Auth::guard('customer')->user()->Customer_SlNo)->exists()){
+                $order = Order::where('SaleMaster_SlNo', $id)->first();
             }
             else{
                 Session::flash('error', 'Invoice not found!');

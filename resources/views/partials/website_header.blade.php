@@ -37,11 +37,11 @@ $route = Route::currentRouteName();
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle @if($route == 'productDetails') nav-active @endif" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Product Item
+              Food Item
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              @foreach($products as $item)
-                <li><a class="dropdown-item" href="{{ route('productDetails', $item->Product_SlNo) }}">{{ $item->Product_Name }}</a></li>
+              @foreach($category->take(15) as $item)
+                <li><a class="dropdown-item" href="{{ route('categorywise', $item->ProductCategory_SlNo) }}">{{ $item->ProductCategory_Name }}</a></li>
               @endforeach
             </ul>
           </li>
@@ -49,7 +49,7 @@ $route = Route::currentRouteName();
             <a class="nav-link @if($route == 'images.website') nav-active @endif" href="{{ route('images.website') }}">Gallery</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link @if($route == 'shape.website') nav-active @endif" href="{{ route('shape.website') }}">Our Shape</a>
+            <a class="nav-link @if($route == 'shape.website') nav-active @endif" href="{{ route('shape.website') }}">Our Chef</a>
           </li>
           <li class="nav-item">
             <a class="nav-link @if($route == 'contact.website') nav-active @endif" href="{{ route('contact.website') }}">Contact Us</a>
@@ -135,7 +135,7 @@ $route = Route::currentRouteName();
         <a class="nav-link" href="{{ route('images.website') }}">Gallery</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('shape.website') }}">Our Shape</a>
+        <a class="nav-link" href="{{ route('shape.website') }}">Our Chef</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('contact.website') }}">Contact Us</a>

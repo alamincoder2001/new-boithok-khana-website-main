@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use DateTime;
 use App\Models\Product;
 use App\Models\Wishlist;
-use App\Models\Inventory;
-use Darryldecode\Cart\Cart;
 use Illuminate\Http\Request;
-use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 
 class CartController extends Controller
