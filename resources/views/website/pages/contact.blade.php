@@ -12,7 +12,7 @@
                             @csrf
                             <div class="row">
                            
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <label for="name" class="form-label">Enter Your Name</label>
                                         <input type="text" class="form-control custom-form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Name">
@@ -23,7 +23,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Enter Email</label>
                                         <input type="email" class="form-control custom-form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Email">
@@ -34,7 +34,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <label for="phone" class="form-label">Phone Number</label>
                                         <input type="text" class="form-control custom-form-control @error('phone') is-invalid @enderror" id="phone" name="phone" placeholder="Phone Number">
@@ -45,7 +45,7 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="mb-3">
                                         <label for="subject" class="form-label">Subject</label>
                                         <input type="text" class="form-control custom-form-control @error('subject') is-invalid @enderror" id="subject" name="subject" placeholder="Subject">
@@ -59,7 +59,7 @@
                                 <div class="col-12">
                                     <div class="mb-3">
                                         <label for="exampleFormControlInput1" class="form-label">Message</label>
-                                        <textarea name="message" id="message" cols="30" rows="5" class="form-control custom-form-control @error('message') is-invalid @enderror" placeholder="write Here ..."></textarea>
+                                        <textarea name="message" id="message" cols="30" rows="3" class="form-control custom-form-control @error('message') is-invalid @enderror" placeholder="write Here ..."></textarea>
                                     </div>
                                     @error('message')
                                         <span class="invalid-feedback" role="alert">
@@ -69,7 +69,7 @@
                                 </div>
                                 
                                 <div class="col-12">
-                                    <div class="d-md-block mt-3">
+                                    <div class="d-md-block mt-3 text-center">
                                         <button class="btn bg-brand" type="submit">Send Message</button>
                                       </div>
                                 </div>
@@ -80,7 +80,7 @@
             </div>         
             <div class="col-lg-4 col-md-4 col-12 mt-md-0 mt-2">
                 <div class="card custom-card">
-                    <div class="card-body">
+                    <div class="card-body" style="height: 348px;">
                         <h4> {{ $content->Company_Name }} </h4>
                         <p class="pb-0 mb-0 text-uppercase text-dark font-16">ADDRESS</p>
                         <p class="pb-0 text-dark font-14">{{ $content->Repot_Heading }}</p>
