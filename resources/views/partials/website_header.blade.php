@@ -6,7 +6,7 @@ $route = Route::currentRouteName();
 <header>
   <nav class="navbar navbar-expand-lg navigation-wrap">
     <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}"><img src="{{ asset('boithok-khana.png') }}" height="40" alt=""><h3 class="text-white display-none-sm">{{ $content->Company_Name }}</h3></a>
+      <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}"><img src="{{ asset('boithok-khana.png') }}" height="60" alt=""><h3 class="text-white display-none-sm">{{ $content->Company_Name }}</h3></a>
       
       <!-- responsive -->
       <div class="display-block-sm">
@@ -49,7 +49,7 @@ $route = Route::currentRouteName();
             <a class="nav-link @if($route == 'images.website') nav-active @endif" href="{{ route('images.website') }}">Gallery</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link @if($route == 'shape.website') nav-active @endif" href="{{ route('shape.website') }}">Our Chef</a>
+            <a class="nav-link @if($route == 'shape.website') nav-active @endif" href="{{ route('shape.website') }}">Our Management</a>
           </li>
           <li class="nav-item">
             <a class="nav-link @if($route == 'contact.website') nav-active @endif" href="{{ route('contact.website') }}">Contact Us</a>
@@ -135,7 +135,7 @@ $route = Route::currentRouteName();
         <a class="nav-link" href="{{ route('images.website') }}">Gallery</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('shape.website') }}">Our Chef</a>
+        <a class="nav-link" href="{{ route('shape.website') }}">Our Management</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{{ route('contact.website') }}">Contact Us</a>

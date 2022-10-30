@@ -11,7 +11,8 @@
     <link rel="icon" type="image/png" href="{{$domain}}uploads/company_profile_org/{{ $content->Company_Logo_org }}" />
     <link rel="stylesheet" href="{{asset('website')}}/css/bootstrap.min.css">
     <link href="{{ asset('website/css/toastr.min.css') }}" rel="stylesheet" id="galio-skin">
-    {{-- <link rel="stylesheet" href="{{asset('website')}}/css/owl.carousel.min.css"> --}}
+    <link rel="stylesheet" href="{{asset('website')}}/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="{{asset('website')}}/css/owl.theme.default.css">
     <!-- view box -->
     <link rel="stylesheet" href="{{ asset('website/css/viewbox.css') }}">
     <link rel="stylesheet" href="{{asset('website')}}/css/style.css">
@@ -19,8 +20,15 @@
     @stack('website-css')
 
     <style>
-        *{
+        * {
             font-size: 14px;
+        }
+
+        .owl-prev {
+            display: none;
+        }
+        .disabled {
+            display: none !important;
         }
     </style>
 </head>
@@ -57,7 +65,8 @@
     <script src="{{asset('website')}}/js/jquery.min.js"></script>
     <script src="{{asset('website')}}/js/bootstrap.bundle.min.js"></script>
     <script src="{{asset('website')}}/js/all.min.js"></script>
-    {{-- <script src="{{asset('website')}}/js/owl.carousel.min.js"></script> --}}
+    <script src="{{asset('website')}}/js/owl.carousel.min.js"></script>
+    <script src="{{asset('website')}}/js/owl.carousel.min.js"></script>
     <!-- view box -->
     <script src="{{ asset('website/js/viewbox.min.js') }}"></script>
     <script src="{{ asset('website/js/toastr.min.js') }}"></script>

@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\Product;
 use App\Models\Upazila;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Wishlist;
 use App\Models\PhotoGallery;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class HomeController extends Controller
 
         $data["after_product"] = Ad::where('status','a')->where('position','after_product')->first();
         $data["shapes"] = Shape::get();
+        $data["clients"] = Client::get();
         return view('website.index', compact('data'));
       
     }
@@ -74,18 +76,18 @@ class HomeController extends Controller
 
     public function fetchUpazila($id){
         
-        $upazila = Upazila::where('district_id', $id)->get();
-        if(count($upazila)>0){
-            $data = [];
-            foreach($upazila as $item){
-                $temp = '<option value="'.$item->id.'">'.$item->name.'</option>';
-                array_push($data, $temp);
-            }
-            return $data;
-        }
-        else{
-            return false;
-        }
+        return $upazila = Upazila::where('district_id', $id)->get();
+        // if(count($upazila)>0){
+        //     $data = [];
+        //     foreach($upazila as $item){
+        //         $temp = '<option data-price="'.$item->charge_amount.'" value="'.$item->id.'">'.$item->name.'</option>';
+        //         array_push($data, $temp);
+        //     }
+        //     return $data;
+        // }
+        // else{
+        //     return false;
+        // }
     }
 
     public function aboutWebsite()

@@ -21,6 +21,7 @@
             <h5 class="text-white fw-bold footer-title">Social Link</h5>
              <ul class="fa-ul custom-fa-ul">
                 <li><a href="{{ $content->facebook }}" target="_blank">Facebook</a></li>
+                <li><a href="{{ $content->instagram }}" target="_blank">Instagram</a></li>
                 <li><a href="{{ $content->twitter }}" target="_blank">Twitter</a></li>
                 <li><a href="{{ $content->linkedin }}" target="_blank">Linkedin</a></li>
                 <li><a href="{{ $content->youtube }}" target="_blank">Youtube</a></li>

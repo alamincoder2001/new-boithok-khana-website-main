@@ -1,8 +1,9 @@
 @extends('layouts.website')
 @section('title', 'Home')
+
 @section('website-content')
 <!-- Quick Order Section -->
-<section style="background: rgb(0 0 0 / 40%) url({{asset('background.jpg')}});background-position: center;background-repeat: no-repeat;background-size: 100% 100%;background-blend-mode: darken;">
+<section style="background: rgb(0 0 0 / 40%) url('{{$domain}}uploads/website_image/{{$content->websiteImage}}');background-position: center;background-repeat: no-repeat;background-size: 100% 100%;background-blend-mode: darken;">
     <div style="background: #4241445c;" class="pb-4">
         <div class="container pt-5 pb-4">
             <div class="row">
@@ -159,7 +160,7 @@
         <div class="row pt-3">
             @foreach ($category->take(12) as $item)
             <div class="col-lg-2 col-md-2 col-6 mb-4">
-                <div class="card p-1 text-center cat_card">
+                <div class="card p-1 text-center cat_card" style="background:#ffeddf;">
                     <a href="{{ route('categorywise', $item->ProductCategory_SlNo) }}">
                         <img src="{{$domain}}/uploads/productcategory/{{$item->image}}" class="img-fluid" alt="">
                     </a>
@@ -189,7 +190,7 @@
                 </div>
             </div>
 
-            <div class="row pt-3"> 
+            <div class="row pt-3">
                 @if(count($itemone->published)>0)
                 @foreach ($itemone->published as $item)
                 <div class="col-lg-3 col-md-6 mb-4">
@@ -256,7 +257,7 @@
 
 <!-- Start Book food Section -->
 <section id="book-food">
-    <div class="book-food" style="background-image:url('{{$domain}}uploads/adss/16618515941.jpg')">
+    <div class="book-food" style="background-image:url('{{$domain}}uploads/adss/{{$data['after_product']->image}}')">
         <div class="container book-food-text">
             <div class="row text-center">
                 <div class="col-12">
@@ -277,7 +278,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="pt-3">
-                    <h2 class="text-center">Our Expert Chef</h2>
+                    <h2 class="text-center">Our Management</h2>
                 </div>
             </div>
         </div>
@@ -303,8 +304,56 @@
         </div>
     </div>
 </section>
+<!-- Our Client List -->
+<section class="expert-food">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pt-3">
+                    <h2 class="text-center">Our Client List</h2>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="owl-carousel owl-theme owl-loaded pb-4">
+            @foreach ($data['clients'] as $item)
+            <div class="item">
+                <a href="{{$item->website_link}}" target="_blank">
+                    <div class="card" style="display: flex;flex-direction: row;align-items: center;">
+                        <img src="{{$domain}}uploads/client/{{ $item->image }}" style="width: 80px;margin-right: 8px;" loading="lazy">
+
+                        <h6 class="text-center mb-0">{{$item->name}}</h6>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</section>
 
 @endsection
 @push('website-js')
-
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop: false,
+        margin: 15,
+        nav: false,
+        dots: false,
+        autoplay: true,
+        autoplayTimeout: 2000,
+        autoplayHoverPause: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            600: {
+                items: 3
+            },
+            1000: {
+                items: 5
+            }
+        }
+    })
+</script>
 @endpush

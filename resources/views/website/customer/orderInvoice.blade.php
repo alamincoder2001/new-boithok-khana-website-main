@@ -26,8 +26,8 @@
                             }
                         }                       
                     </style>
-                    <div>
-                        <div style="display:flex">
+                    <div style="background: gray;padding: 0px 10px;">
+                        <div style="display:flex;padding-top:6px;">
                           <div class="logo-img" style="width: 50%">
                             <img src="{{$domain}}uploads/company_profile_org/{{$content->Company_Logo_org}}" alt="logo" style="height: 50px;width:auto">
                           </div>

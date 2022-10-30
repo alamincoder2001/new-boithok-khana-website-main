@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Customer;
 
-use Exception;
 use Carbon\Carbon;
 use App\Models\Order;
-use App\Models\Country;
 use App\Models\Upazila;
 use App\Models\Customer;
 use App\Models\District;
@@ -14,15 +12,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
-use Tymon\JWTAuth\Claims\Custom;
 
 class CheckoutController extends Controller
 {
     public function checkout()
     {
-        $data['districts'] = District::all();
+        $data['districts'] = District::where("status", "a")->orderBy("District_Name")->get();
         $data['upazilas'] = Upazila::all();
         if (Auth::guard('customer')->user() || session()->get('phone')) {
             if (\Cart::getContent()->count() > 0) {

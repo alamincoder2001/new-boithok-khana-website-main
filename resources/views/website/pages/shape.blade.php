@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-auto me-auto">
-                    <div class="common-title">Our Chef</div>
+                    <div class="common-title">Our Management</div>
                 </div>
                 <div class="col-auto">
 
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 @empty
-                    <h6 class="text-danger">Shape Not Found</h6>
+                    <h6 class="text-danger">Management Not Found</h6>
                 @endforelse
 
             </div>
